@@ -1,8 +1,11 @@
 package com.xq.learn.kafka.producer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 /**
@@ -28,6 +31,11 @@ public class ProducerDemo
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         // 指定自定义分区类
         props.put("partitioner.class", "com.xq.learn.kafka.producer.CustomPartition");
+        // 指定拦截器，拦截器指定时需要指定类的全限定名称，可以指定多个拦截器，因为拦截器调用是一个调用链
+        List<String> interceptors = new ArrayList<>();
+        interceptors.add("com.xq.learn.kafka.interceptor.TimeInterceptor");
+        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);
+        // 创建生产者
         Producer<String, String> producer = new KafkaProducer<>(props);
         for (int i = 0; i < 100; i++)
         {

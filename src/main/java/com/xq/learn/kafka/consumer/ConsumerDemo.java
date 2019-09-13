@@ -9,7 +9,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 /**
- * kafka消费者api
+ * kafka消费者高级api，不需要指定分区，offset等，都有KafkaConsumer封装好了。
  * @author xiaoqiang
  * @date 2019/9/10 2:35
  */
@@ -38,7 +38,10 @@ public class ConsumerDemo
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord record : records)
             {
-                System.out.println("topic: " + record.topic() + "--partition：" + record.partition() + "--value: " + record.value());
+                System.out.println("topic: " + record.topic()
+                        + "--partition：" + record.partition()
+                        + "--value: " + record.value()
+                        + "--offset: " + record.offset());
             }
         }
     }
