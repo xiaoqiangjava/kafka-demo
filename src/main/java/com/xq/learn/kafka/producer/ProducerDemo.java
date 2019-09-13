@@ -39,7 +39,8 @@ public class ProducerDemo
         Producer<String, String> producer = new KafkaProducer<>(props);
         for (int i = 0; i < 100; i++)
         {
-            producer.send(new ProducerRecord<>("first", i + "", i + ""), (metadata, exception) -> System.out.println("partition:offset-->" + metadata.partition() + "-->" + metadata.offset()));
+            String value = "INFO:>>>message: " + i;
+            producer.send(new ProducerRecord<>("first", i + "", value), (metadata, exception) -> System.out.println("partition:offset-->" + metadata.partition() + "-->" + metadata.offset()));
         }
         producer.close();
     }
